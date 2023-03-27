@@ -54,7 +54,7 @@
 			<tr>
 				<td style="vertical-align: top">Alamat / Tempat Tinggal</td>
 				<td style="vertical-align: top">:</td>
-				<td style="vertical-align: top">RT. <?= $data['no_rt'] ?>, RW. <?= $data['no_rw'] ?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang'])) ?>, <?= ucwords($this->setting->sebutan_desa) ?> <?= unpenetration($desa['nama_desa']) ?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat) ?> <?= strtoupper(unpenetration($desa['nama_kecamatan'])) ?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat) ?> <?= unpenetration($desa['nama_kabupaten']) ?></td>
+				<td style="vertical-align: top">RT. <?= $data['no_rt'] ?>, RW. <?= $data['no_rw'] ?>, Pedukuhan <?= underscore(unpenetration($data['alamat_sekarang'])) ?>, <?= ucwords($this->setting->sebutan_desa) ?> <?= unpenetration($desa['nama_desa']) ?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat) ?> <?= strtoupper(unpenetration($desa['nama_kecamatan'])) ?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat) ?> <?= unpenetration($desa['nama_kabupaten']) ?></td>
 			</tr>
 			<tr>
 				<td>Agama</td>
@@ -91,7 +91,7 @@
 
 	<table>
 		<tr>
-			<td>Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang'])) ?>, RT. <?= $data['no_rt'] ?>, <?= unpenetration($data['alamat_sekarang']) ?>, <?= unpenetration($desa['nama_kecamatan']) ?>, <?= unpenetration($desa['nama_kabupaten']) ?> tercatat dalam No. KK: <?= $data['no_kk'] ?> dengan NIK: <?= $data['nik'] ?> , kepala keluarga : <?= unpenetration($data['kepala_kk']) ?>.</td>
+			<td>Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di Pedukuhan <?= underscore(unpenetration($data['alamat_sekarang'])) ?>, RT. <?= $data['no_rt'] ?>, <?= unpenetration($data['alamat_sekarang']) ?>, <?= unpenetration($desa['nama_kecamatan']) ?>, <?= unpenetration($desa['nama_kabupaten']) ?> tercatat dalam No. KK: <?= $data['no_kk'] ?> dengan NIK: <?= $data['nik'] ?> , kepala keluarga : <?= unpenetration($data['kepala_kk']) ?>.</td>
 		</tr>
 	</table>
 
