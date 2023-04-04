@@ -97,7 +97,7 @@
 
 	<table>
 		<tr>
-			<td>Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang'])) ?>, RT. <?= $data['no_rt'] ?>, <?= unpenetration($data['alamat_sekarang']) ?>, <?= unpenetration($desa['nama_kecamatan']) ?>, <?= unpenetration($desa['nama_kabupaten']) ?> tercatat dalam No. KK: <?= $data['no_kk'] ?> dengan NIK: <?= $data['nik'] ?> , kepala keluarga : <?= unpenetration($data['kepala_kk']) ?>.</td>
+			<td>Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di Pedukuhan <?= underscore(unpenetration($data['alamat_sekarang'])) ?>, RT. <?= $data['no_rt'] ?>, <?= unpenetration($data['alamat_sekarang']) ?>, <?= unpenetration($desa['nama_kecamatan']) ?>, <?= unpenetration($desa['nama_kabupaten']) ?> tercatat dalam No. KK: <?= $data['no_kk'] ?> dengan NIK: <?= $data['nik'] ?> , kepala keluarga : <?= unpenetration($data['kepala_kk']) ?>.</td>
 		</tr>
 	</table>
 

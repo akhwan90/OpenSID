@@ -43,7 +43,7 @@
                                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                         </span>
                                     </div>
-                                    <p class="help-block text-red small">File wajib PDF, dengan ukuran kurang dari 2 MB</p>
+                                    <p class="help-block text-red small">File wajib PDF, dengan ukuran kurang dari 1500 Kb</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Klasifikasi Surat</label>
