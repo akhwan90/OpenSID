@@ -40,6 +40,7 @@ $route['layanan-mandiri-kp/download-surat-tte/(:num)'] = 'kp/layanan_mandiri/sur
 // tambahan kulon progo
 $kp = ['kp_surat', 'kp_keluar', 'kp_tte', 'kp_setting_tte', 'kp_permohonan_surat_admin','kp_suratku_surat_masuk', 'kp_suratku_surat_keluar'];
 foreach ($kp as $menu) {
+	$route["{$menu}/([a-z_]+)/(:any)/(:any)/(:any)/(:any)"] = "kp/{$menu}/$1/$2/$3/$4/$5";
 	$route["{$menu}/([a-z_]+)/(:any)/(:any)/(:any)"] = "kp/{$menu}/$1/$2/$3/$4";
 	$route["{$menu}/([a-z_]+)/(:any)/(:any)"] = "kp/{$menu}/$1/$2/$3";
 	$route["{$menu}/([a-z_]+)/(:any)"] = "kp/{$menu}/$1/$2";

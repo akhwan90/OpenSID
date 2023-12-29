@@ -58,6 +58,11 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 		$this->load->model('kp/surat_masuk_suratku_model');
 		$this->modul_ini = 4;
 		$this->sub_modul_ini = 334;
+
+		$config = $this->config_model->get_data();
+		$kode_desa = $config['kode_desa'];
+
+		$this->username = $kode_desa;
 	}
 
 	public function index()
@@ -71,10 +76,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 
 	public function dashboard()
 	{
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
-
-		$username = '003' . $kode_desa;
+		$username = $this->username;
 		$get_dashboard = $this->surat_masuk_suratku_model->get_dashboard($username);
 
 		$this->output
@@ -84,17 +86,20 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 
 	public function index_ajax($tahun)
 	{
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
-
 		if ($tahun == 0) {
 			$tahun = date('Y');
 		} else {
 			$tahun = $tahun;
 		}
 
-		$username = '003' . $kode_desa;
-		// $username = '003' . $kode_prov . $kode_kab . $kode_kec . $kode_desa;
+		if (in_array($tahun, ['2023', '2024'])) {
+			$username = $this->username;
+		} else {
+			$username = '003'.$this->username;
+		}
+
+
+		// $username = $kode_prov . $kode_kab . $kode_kec . $kode_desa;
 		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk($username, $tahun);
 
 		$this->output
@@ -105,9 +110,6 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 	public function detil_surat($tahun)
 	{
 		$p = $this->input->post();
-
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
 
 		$params = [
 			'id_surat' => $p['id_surat'],
@@ -122,8 +124,13 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			$tahun = $tahun;
 		}
 
+		if (in_array($tahun, ['2023', '2024'])) {
+			$username = $this->username;
+		} else {
+			$username = '003' . $this->username;
+		}
 
-		$username = '003' . $kode_desa;
+
 		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk_detil($username, $params, $tahun);
 		$set_status_baca = $this->surat_masuk_suratku_model->set_status_baca($username, $params, $tahun);
 
@@ -143,8 +150,18 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 
 		$p = $this->input->post();
 
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
+
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
+		if (in_array($tahun, ['2023', '2024'])) {
+			$username = $this->username;
+		} else {
+			$username = '003' . $this->username;
+		}
 
 		$params = [
 			'id_surat' => $p['mdl_detil_surat_id_surat'],
@@ -153,13 +170,6 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			'is_tembusan' => $p['mdl_detil_surat_penerima_is_tembusan']
 		];
 
-		if ($tahun == 0) {
-			$tahun = date('Y');
-		} else {
-			$tahun = $tahun;
-		}
-
-		$username = '003' . $kode_desa;
 		$set_status_berinomor = $this->surat_masuk_suratku_model->set_status_berinomor($username, $params, $tahun);
 
 
@@ -168,6 +178,52 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 		->set_output(json_encode($simpan_surat));
 	}
 
-	
+	public function get_file_surat($tahun, $idSurat) {
+
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
+		if (in_array($tahun, ['2023', '2024'])) {
+			$username = $this->username;
+		} else {
+			$username = '003' . $this->username;
+		}
+
+		// $username = $kode_prov . $kode_kab . $kode_kec . $kode_desa;
+		$get_surat = $this->surat_masuk_suratku_model->get_file($username, $tahun, $idSurat);
+
+		$this->output
+		->set_content_type('application/pdf')
+		->set_output($get_surat);
+	}
+
+	public function get_file_surat_lampiran($tahun, $idSurat, $idLampiran, $tipeFile)
+	{
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
+
+		if (in_array($tahun, ['2023', '2024'])) {
+			$username = $this->username;
+		} else {
+			$username = '003' . $this->username;
+		}
+
+
+		// $username = $kode_prov . $kode_kab . $kode_kec . $kode_desa;
+		$get_lampiran = $this->surat_masuk_suratku_model->get_file_lampiran($username, $tahun, $idSurat, $idLampiran);
+
+		$contentType = get_mime_by_extension($idSurat.".".$tipeFile);
+
+		$this->output
+		->set_content_type($contentType)
+		->set_output($get_lampiran);
+	}
 	
 }

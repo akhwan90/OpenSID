@@ -214,7 +214,6 @@ class Surat_masuk_suratku_model extends CI_Model {
         }
     }
 
-
     public function insert()
     {
         // Ambil semua data dari var. global $_POST
@@ -223,6 +222,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         unset($data['mdl_detil_surat_penerima_id_instansi']);
         unset($data['mdl_detil_surat_penerima_id_user']);
         unset($data['mdl_detil_surat_penerima_is_tembusan']);
+        $data['isi_singkat'] = substr($data['isi_singkat'], 0, 196);
 
         // file_put_contents("Tmpfile.zip", fopen("http://someurl/file.zip", 'r'));
 
@@ -254,5 +254,63 @@ class Surat_masuk_suratku_model extends CI_Model {
         // Set session berdasarkan hasil operasi
         // $_SESSION['success'] = $indikatorSukses ? 1 : -1;
         // $_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
+    }
+
+    public function get_file($username, $tahun, $idSurat) {
+        // set post fields
+        $post = [
+            'username' => $username,
+            'password' => $username,
+        ];
+
+        $url = $this->suratku_api[$tahun]['get_file_surat'].'/'.$idSurat;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($httpcode != 200) {
+            log_message('error', "Error get file surat ".$url." : ".$httpcode);
+            return false;
+        } else {
+            return $response;
+        }
+    }
+
+
+    public function get_file_lampiran($username, $tahun, $idSurat, $idLampiran) {
+        // set post fields
+        $post = [
+            'username' => $username,
+            'password' => $username,
+        ];
+
+        $url = $this->suratku_api[$tahun]['get_file_surat_lampiran'].'/'.$idSurat.'/'.$idLampiran;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+// 
+
+        if ($httpcode != 200) {
+            log_message('error', "Error get file surat lampiran" . $url . " : " . $httpcode);
+            return false;
+        } else {
+            return $response;
+        }
     }
 }
