@@ -30,6 +30,7 @@
                                                 <div class="input-group input-group-sm pull-right">
                                                     <?= form_dropdown('tahun', [
                                                         '' => '-Pilih tahun masuk-',
+                                                        '2024' => 'Surat Masuk Tahun 2024',
                                                         '2023' => 'Surat Masuk Tahun 2023',
                                                         '2022' => 'Surat Masuk Tahun 2022',
                                                         '2021' => 'Surat Masuk Tahun 2021',
@@ -105,7 +106,6 @@
 
 <script type="text/javascript">
     dt_surat();
-    let base_url = '<?= site_url(); ?>';
 
     function dt_surat() {
         let tahun = $("#tahun").val();
