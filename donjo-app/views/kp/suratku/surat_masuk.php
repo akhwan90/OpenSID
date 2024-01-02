@@ -124,34 +124,39 @@
                 let no = 1;
                 let belum_dibaca = 0;
                 let belum_diagenda = 0;
-                $.each(r.results, function(k, v) {
-                    let tgl = v.tgl_surat;
-                    let pc_tgl = tgl.split('-');
-                    let new_tgl = pc_tgl[2] + "-" + pc_tgl[1] + "-" + pc_tgl[0];
-                    let link_detil = '<a href="#" onclick="return detil_surat(\'' + v.id_surat + '\', \'' + v.penerima_id_instansi + '\', \'' + v.penerima_id_user + '\', ' + v.is_tembusan + ');" class="btn btn-success btn-sm btn-flat"><i class="fa fa-search"></i> Detil</a>';
 
-                    let is_read = (v.is_read == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
-                    let is_agenda = (v.is_agenda == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
-                    let is_tembusan = (v.is_tembusan == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
-                    if (v.is_read != "1") {
-                        belum_dibaca++;
-                    }
-                    if (v.is_agenda != "1") {
-                        belum_diagenda++;
-                    }
+                if (r.results.length < 1) {
+                    htm += '<tr><td colspan="8">Belum ada surat masuk</td></tr>';
+                } else {
+                    $.each(r.results, function(k, v) {
+                        let tgl = v.tgl_surat;
+                        let pc_tgl = tgl.split('-');
+                        let new_tgl = pc_tgl[2] + "-" + pc_tgl[1] + "-" + pc_tgl[0];
+                        let link_detil = '<a href="#" onclick="return detil_surat(\'' + v.id_surat + '\', \'' + v.penerima_id_instansi + '\', \'' + v.penerima_id_user + '\', ' + v.is_tembusan + ');" class="btn btn-success btn-sm btn-flat"><i class="fa fa-search"></i> Detil</a>';
 
-                    htm += '<tr>';
-                    htm += '<td class="text-center">' + no + '</td>';
-                    htm += '<td class="text-center">' + link_detil + '</td>';
-                    htm += '<td>' + is_read + '</i></td>';
-                    htm += '<td>' + is_agenda + '</i></td>';
-                    htm += '<td>' + is_tembusan + '</i></td>';
-                    htm += '<td>' + v.nm_instansi_pengirim + '</td>';
-                    htm += '<td>' + new_tgl + '<br><i>No: ' + v.nomor_surat + '</i></td>';
-                    htm += '<td>' + v.judul + '<br><i>' + v.deskripsi + '</i></td>';
-                    htm += '</tr>';
-                    no++;
-                });
+                        let is_read = (v.is_read == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
+                        let is_agenda = (v.is_agenda == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
+                        let is_tembusan = (v.is_tembusan == "1") ? '<div class="btn btn-success btn-sm"><i class="fa fa-check"></i></div>' : '<div class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i></div>';
+                        if (v.is_read != "1") {
+                            belum_dibaca++;
+                        }
+                        if (v.is_agenda != "1") {
+                            belum_diagenda++;
+                        }
+
+                        htm += '<tr>';
+                        htm += '<td class="text-center">' + no + '</td>';
+                        htm += '<td class="text-center">' + link_detil + '</td>';
+                        htm += '<td>' + is_read + '</i></td>';
+                        htm += '<td>' + is_agenda + '</i></td>';
+                        htm += '<td>' + is_tembusan + '</i></td>';
+                        htm += '<td>' + v.nm_instansi_pengirim + '</td>';
+                        htm += '<td>' + new_tgl + '<br><i>No: ' + v.nomor_surat + '</i></td>';
+                        htm += '<td>' + v.judul + '<br><i>' + v.deskripsi + '</i></td>';
+                        htm += '</tr>';
+                        no++;
+                    });
+                }
 
                 $("#belum_dibaca").html(belum_dibaca);
                 $("#belum_diagenda").html(belum_diagenda);
@@ -195,7 +200,7 @@
                 if (lampiran.length > 0) {
                     html_lampiran += '<tr><td>Lampiran</td><td><ol style="margin-left: -20px; margin-top: 10px">';
                     $.each(lampiran, function(k, v) {
-                        html_lampiran += '<li><a href="' + base_url + 'kp_suratku_surat_masuk/get_file_surat_lampiran/' + tahun + '/' + id_surat + '/' + v.id_lampiran + '/'+v.file_type+'" target="_blank">' + v.file_label + '</a>  [tipe: ' + v.file_type + ', ukuran: ' + v.file_size + ' KB]</li>';
+                        html_lampiran += '<li><a href="' + base_url + 'kp_suratku_surat_masuk/get_file_surat_lampiran/' + tahun + '/' + id_surat + '/' + v.id_lampiran + '/' + v.file_type + '" target="_blank">' + v.file_label + '</a>  [tipe: ' + v.file_type + ', ukuran: ' + v.file_size + ' KB]</li>';
                     });
                     html_lampiran += '</ol></td></tr>';
                 }
