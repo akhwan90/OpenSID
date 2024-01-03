@@ -105,6 +105,7 @@
 
 
 <script type="text/javascript">
+    let baseUriOpenSid = "<?= site_url(); ?>";
     dt_surat();
 
     function dt_surat() {
@@ -223,7 +224,7 @@
 
 
 
-                htm += '<iframe src="' + base_url + 'kp_suratku_surat_masuk/get_file_surat/' + tahun + '/' + id_surat + '" width="100%" height="300" frameBorder="0">Browser not compatible.</iframe>';
+                htm += '<iframe src="' + baseUriOpenSid + 'kp_suratku_surat_masuk/get_file_surat/' + tahun + '/' + id_surat + '" width="100%" height="300" frameBorder="0">Browser not compatible.</iframe>';
 
                 $("#mdl_detil_surat_detil").html(htm);
 
