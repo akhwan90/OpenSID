@@ -201,7 +201,7 @@
                 if (lampiran.length > 0) {
                     html_lampiran += '<tr><td>Lampiran</td><td><ol style="margin-left: -20px; margin-top: 10px">';
                     $.each(lampiran, function(k, v) {
-                        html_lampiran += '<li><a href="' + base_url + 'kp_suratku_surat_masuk/get_file_surat_lampiran/' + tahun + '/' + id_surat + '/' + v.id_lampiran + '/' + v.file_type + '" target="_blank">' + v.file_label + '</a>  [tipe: ' + v.file_type + ', ukuran: ' + v.file_size + ' KB]</li>';
+                        html_lampiran += '<li><a href="' + baseUriOpenSid + 'kp_suratku_surat_masuk/get_file_surat_lampiran/' + tahun + '/' + id_surat + '/' + v.id_lampiran + '/' + v.file_type + '" target="_blank">' + v.file_label + '</a>  [tipe: ' + v.file_type + ', ukuran: ' + v.file_size + ' KB]</li>';
                     });
                     html_lampiran += '</ol></td></tr>';
                 }
