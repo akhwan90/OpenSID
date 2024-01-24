@@ -484,8 +484,6 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			// exit;
 			
 			$send_to_suratku = $this->suratku_model->kirim_surat($username, date('Y'), $pdata);
-
-			dd($send_to_suratku);
 			
 			if ($send_to_suratku) {
 				$this->db
