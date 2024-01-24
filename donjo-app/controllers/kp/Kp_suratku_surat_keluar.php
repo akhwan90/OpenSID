@@ -60,6 +60,11 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		$this->load->model('surat_keluar_model');
 		$this->modul_ini = 4;
 		$this->sub_modul_ini = 335;
+
+		$config = $this->config_model->get_data();
+		$kode_desa = $config['kode_desa'];
+
+		$this->username = $kode_desa;
 	}
 
 	public function index()
@@ -440,10 +445,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		// TODO 
 		// Tambah aksi untuk kirim ke suratku 
 
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
-
-		$username = '003' . $kode_desa;
+		$username = $this->username;
 
 		$get_detil_surat_keluar = $this->db 
 		->where('id', $id_surat_keluar)
@@ -482,6 +484,8 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			// exit;
 			
 			$send_to_suratku = $this->suratku_model->kirim_surat($username, date('Y'), $pdata);
+
+			dd($send_to_suratku);
 			
 			if ($send_to_suratku) {
 				$this->db

@@ -208,7 +208,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         curl_close($ch);
 
         if ($httpcode != 200) {
-            return false;
+            return json_decode($response, true);
         } else {
             return json_decode($response, true);
         }
