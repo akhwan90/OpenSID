@@ -173,7 +173,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         curl_close($ch);
 
         if ($httpcode != 200) {
-            return false;
+            return $response;
         } else {
             return json_decode($response, true);
         }
@@ -207,11 +207,11 @@ class Surat_masuk_suratku_model extends CI_Model {
         $curl_error = curl_error($ch);
         curl_close($ch);
 
-        if ($httpcode != 200) {
-            return json_decode($response, true);
-        } else {
-            return json_decode($response, true);
-        }
+        return [
+            'status'=>$httpcode,
+            'response'=>$response,
+            'error'=>$curl_error
+        ];
     }
 
     public function insert()

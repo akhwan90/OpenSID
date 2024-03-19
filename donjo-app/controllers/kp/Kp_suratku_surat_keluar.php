@@ -98,11 +98,12 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 	public function add()
 	{
-		$config = $this->config_model->get_data();
-		$kode_desa = $config['kode_desa'];
-		$username = '003' . $kode_desa;
+		$username = $this->username;
 	
-		$get_list_opd = $this->suratku_model->get_list_opd($username, 2022);
+		$get_list_opd = $this->suratku_model->get_list_opd($username, 2024);
+
+		// dd($get_list_opd);
+
 		$get_klasifikasi_surat = $this->klasifikasi_model->list_kode();
 
 
@@ -111,13 +112,10 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 		$p_list_opd = [];
 		$p_list_klasifikasi = [''=>'-'];
+
 		if (!empty($get_list_opd['data'])) {
-			foreach ($get_list_opd['data'] as $opd) {
-				$username_pimpinan = $opd['nip_pimpinan_asli'];
-				if (empty($opd['nip_pimpinan_asli'])) {
-					$username_pimpinan = $opd['nip_plt'];
-				}
-				$idx = $opd['instansi_id']."-". $username_pimpinan . "--" . $opd['instansi_nama'];
+			foreach ($get_list_opd['data'] as $opdKey => $opd) {
+				$idx = $opd['instansi_id'];
 				$p_list_opd[$idx] = $opd['instansi_nama'];
 			}
 		}
@@ -482,10 +480,11 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 			// echo json_encode($pdata);
 			// exit;
+			// dd($get_tujuan_surat_keluar);
 			
 			$send_to_suratku = $this->suratku_model->kirim_surat($username, date('Y'), $pdata);
 			
-			if ($send_to_suratku) {
+			if ($send_to_suratku['status'] == 200) {
 				$this->db
 				->where('id_surat_keluar', $id_surat_keluar)
 				->update('akp_surat_keluar_detil_surat', [
@@ -495,6 +494,9 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 				]);
 
 				$this->session->set_flashdata('notif', '<div class="alert alert-success" style="margin-top: 5px">'.$send_to_suratku['message'].'</div>');
+				redirect('kp_suratku_surat_keluar');
+			} else {
+				$this->session->set_flashdata('notif', '<div class="alert alert-danger" style="margin-top: 5px">Surat tidak terkirim. Terjadi kesalahan: ' . json_encode($send_to_suratku['response']) . '</div>');
 				redirect('kp_suratku_surat_keluar');
 			}
 		

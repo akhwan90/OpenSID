@@ -21,7 +21,7 @@
                                 <h4>OPD Tujuan Surat <span class="text-danger"> *) Pilihan minimal 1</span></h4>
                                 <?php foreach ($p_list_opd as $opd_key => $opd_val) : ?>
                                     <div>
-                                        <?= form_checkbox('opd_tujuan[]', $opd_key, false, 'id="opd_' . $opd_key . '"'); ?>
+                                        <?= form_checkbox('opd_tujuan[]', $opd_key."--".$opd_val, false, 'id="opd_' . $opd_key . '"'); ?>
                                         <label for="opd_<?= $opd_key; ?>">
                                             <?= $opd_val; ?>
                                         </label>
