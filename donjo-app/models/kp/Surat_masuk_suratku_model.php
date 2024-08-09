@@ -209,7 +209,7 @@ class Surat_masuk_suratku_model extends CI_Model {
 
         return [
             'status'=>$httpcode,
-            'response'=>$response,
+            'response'=>json_decode($response),
             'error'=>$curl_error
         ];
     }

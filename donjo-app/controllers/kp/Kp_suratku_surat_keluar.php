@@ -483,17 +483,19 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			// dd($get_tujuan_surat_keluar);
 			
 			$send_to_suratku = $this->suratku_model->kirim_surat($username, date('Y'), $pdata);
-			
+
+			log_message('error', 'Kirim surat suratku: '.json_encode($send_to_suratku));
+
 			if ($send_to_suratku['status'] == 200) {
 				$this->db
 				->where('id_surat_keluar', $id_surat_keluar)
 				->update('akp_surat_keluar_detil_surat', [
 					'is_kirim'=>1,
 					'tgl_kirim'=>date('Y-m-d H:i:s'),
-					'id_surat_suratku'=>$send_to_suratku['id_surat'],
+					'id_surat_suratku'=>$send_to_suratku['response']['idSurat'],
 				]);
 
-				$this->session->set_flashdata('notif', '<div class="alert alert-success" style="margin-top: 5px">'.$send_to_suratku['message'].'</div>');
+				$this->session->set_flashdata('notif', '<div class="alert alert-success" style="margin-top: 5px">'.$send_to_suratku['response']['message'].'</div>');
 				redirect('kp_suratku_surat_keluar');
 			} else {
 				$this->session->set_flashdata('notif', '<div class="alert alert-danger" style="margin-top: 5px">Surat tidak terkirim. Terjadi kesalahan: ' . json_encode($send_to_suratku['response']) . '</div>');
