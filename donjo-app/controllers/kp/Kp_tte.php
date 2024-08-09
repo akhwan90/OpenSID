@@ -180,7 +180,7 @@ class Kp_tte extends Admin_Controller
 					"tampilan" => 'visible',
 					"page" => 1,
 					"image" => true,
-					"xAxis" => 0,
+					"xAxis" => -600,
 					"yAxis" => 0,
 					"width" => 1190,
 					"height" => 50,
