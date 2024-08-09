@@ -219,11 +219,18 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 		// $username = $kode_prov . $kode_kab . $kode_kec . $kode_desa;
 		$get_lampiran = $this->surat_masuk_suratku_model->get_file_lampiran($username, $tahun, $idSurat, $idLampiran);
 
-		$contentType = get_mime_by_extension($idSurat.".".$tipeFile);
+		if ($tipeFile == 'link') {
+			$getLink = json_decode($get_lampiran);
 
-		$this->output
-		->set_content_type($contentType)
-		->set_output($get_lampiran);
+			redirect($getLink->data);
+		} else {
+
+			$contentType = get_mime_by_extension($idSurat.".".$tipeFile);
+
+			$this->output
+			->set_content_type($contentType)
+			->set_output($get_lampiran);
+		}
 	}
 	
 }
