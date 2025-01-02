@@ -30,6 +30,7 @@
                                                 <div class="input-group input-group-sm pull-right">
                                                     <?= form_dropdown('tahun', [
                                                         '' => '-Pilih tahun masuk-',
+                                                        '2025' => 'Surat Masuk Tahun 2025',
                                                         '2024' => 'Surat Masuk Tahun 2024',
                                                         '2023' => 'Surat Masuk Tahun 2023',
                                                         '2022' => 'Surat Masuk Tahun 2022',

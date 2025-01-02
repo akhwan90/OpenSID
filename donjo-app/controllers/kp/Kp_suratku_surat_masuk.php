@@ -92,7 +92,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			$tahun = $tahun;
 		}
 
-		if (in_array($tahun, ['2023', '2024'])) {
+		if (in_array($tahun, ['2023', '2024', '2025'])) {
 			$username = $this->username;
 		} else {
 			$username = '003'.$this->username;
@@ -124,7 +124,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			$tahun = $tahun;
 		}
 
-		if (in_array($tahun, ['2023', '2024'])) {
+		if (in_array($tahun, ['2023', '2024', '2025'])) {
 			$username = $this->username;
 		} else {
 			$username = '003' . $this->username;
@@ -157,7 +157,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			$tahun = $tahun;
 		}
 
-		if (in_array($tahun, ['2023', '2024'])) {
+		if (in_array($tahun, ['2023', '2024', '2025'])) {
 			$username = $this->username;
 		} else {
 			$username = '003' . $this->username;
@@ -186,7 +186,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 			$tahun = $tahun;
 		}
 
-		if (in_array($tahun, ['2023', '2024'])) {
+		if (in_array($tahun, ['2023', '2024', '2025'])) {
 			$username = $this->username;
 		} else {
 			$username = '003' . $this->username;
@@ -209,7 +209,7 @@ class Kp_suratku_surat_masuk extends Admin_Controller
 		}
 
 
-		if (in_array($tahun, ['2023', '2024'])) {
+		if (in_array($tahun, ['2023', '2024', '2025'])) {
 			$username = $this->username;
 		} else {
 			$username = '003' . $this->username;
