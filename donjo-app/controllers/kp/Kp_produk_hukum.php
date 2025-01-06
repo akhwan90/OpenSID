@@ -11,7 +11,7 @@ class Kp_produk_hukum extends CI_Controller
     {
         // $where = array('id' => $id);
         // $url = 'http://tawangsari-pengasih.desa.id/index.php/Api_perdes/get_perdes';
-        $this->db->where('kategori', 3);
+        $this->db->where_in('kategori', [2, 3]);
         $json_data = $this->db->get('dokumen')->result();
         $arr = array();
         foreach ($json_data as $result) {
