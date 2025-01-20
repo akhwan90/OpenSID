@@ -71,7 +71,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 	{
 		$user_id = intval($this->session->userdata('user'));
 		$level = intval($this->session->userdata('grup'));
-		
+
 		$get_data_main = $this->db
 			->where('surat_keluar.created_by', $this->session->userdata('user'))
 			->or_group_start()
@@ -82,7 +82,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 		if ($level == 6) {
 			$get_data_main->where('is_setuju_pembuat', 1)
-			->where('is_pemeriksa_setuju', 0);
+				->where('is_pemeriksa_setuju', 0);
 		}
 
 
@@ -99,7 +99,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 	public function add()
 	{
 		$username = $this->username;
-	
+
 		$get_list_opd = $this->suratku_model->get_list_opd($username, 2024);
 
 		// dd($get_list_opd);
@@ -111,7 +111,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		$data['nomor_urut'] = $last_surat['no_surat'] + 1;
 
 		$p_list_opd = [];
-		$p_list_klasifikasi = [''=>'-'];
+		$p_list_klasifikasi = ['' => '-'];
 
 		if (!empty($get_list_opd['data'])) {
 			foreach ($get_list_opd['data'] as $opdKey => $opd) {
@@ -123,7 +123,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		if (!empty($get_klasifikasi_surat)) {
 			foreach ($get_klasifikasi_surat as $klasifikasi) {
 				$idx = $klasifikasi['kode'];
-				$p_list_klasifikasi[$idx] = $klasifikasi['kode']." - ".$klasifikasi['nama'];
+				$p_list_klasifikasi[$idx] = $klasifikasi['kode'] . " - " . $klasifikasi['nama'];
 			}
 		}
 
@@ -181,8 +181,8 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		}
 
 		$list_user_penandatangan = $this->db
-		->where('id_grup', 6)
-		->get('user')->result_array();
+			->where('id_grup', 6)
+			->get('user')->result_array();
 
 
 		$data['p_list_user_penandatangan'] = ['' => '-'];
@@ -197,18 +197,18 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		$data['p_list_opd'] = $p_list_opd;
 		$data['p_list_klasifikasi'] = $p_list_klasifikasi;
 
-		$data['detil_surat_keluar'] = $this->db 
-		->where('id', $id_surat_keluar)
-		->get('surat_keluar')->row();
+		$data['detil_surat_keluar'] = $this->db
+			->where('id', $id_surat_keluar)
+			->get('surat_keluar')->row();
 
 
 		$data['detil_surat_keluar_tujuan'] = $this->db
-		->where('id_surat_keluar', $id_surat_keluar)
-		->get('akp_surat_keluar_detil')->row();
-		
+			->where('id_surat_keluar', $id_surat_keluar)
+			->get('akp_surat_keluar_detil')->row();
+
 		$data['detil_surat_keluar_pemeriksa'] = $this->db
-		->where('id_surat_keluar', $id_surat_keluar)
-		->get('akp_surat_keluar_detil_surat')->row();
+			->where('id_surat_keluar', $id_surat_keluar)
+			->get('akp_surat_keluar_detil_surat')->row();
 
 		log_message('error', $this->db->last_query());
 
@@ -220,7 +220,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 	public function insert()
 	{
-		
+
 		$pdata = $this->input->post(NULL);
 		$pdata['tanggal_surat'] = strip_tags($pdata['tanggal_surat']);
 		// // Bersihkan data
@@ -229,12 +229,12 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 		$this->load->helper('string');
 		$this->load->library('upload');
-		
+
 		$uploadConfig = array(
 			'upload_path' => './desa/upload/surat_keluar/',
 			'allowed_types' => 'pdf',
-			'max_size' =>2048,
-			'encrypt_name'=>true,
+			'max_size' => 2048,
+			'encrypt_name' => true,
 		);
 
 		if (count($pdata['opd_tujuan']) < 1) {
@@ -243,7 +243,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		}
 
 		$this->upload->initialize($uploadConfig);
-		
+
 		if ($this->upload->do_upload('satuan')) {
 			$upload_data = $this->upload->data();
 			$file_name = $upload_data['file_name'];
@@ -277,7 +277,6 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 						'teks' => $instansi_nama,
 					]);
 				}
-
 			}
 
 			$insert_detil_surat = $this->db->insert('akp_surat_keluar_detil_surat', [
@@ -292,7 +291,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 				$this->session->set_flashdata('info', '<div class="alert alert-danger">Terjadi kesalahan</div>');
 				redirect('kp_suratku_surat_keluar/add');
 			} else {
-				$this->db->trans_commit();	
+				$this->db->trans_commit();
 				redirect('kp_suratku_surat_keluar');
 			}
 		} else {
@@ -342,12 +341,11 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			$insert_data['berkas_scan'] = $file_name;
 
 			// hapus file lama 
-			$get_file_lama = $this->db 
-			->where('id', $id_surat)
-			->get('surat_keluar')->row();
+			$get_file_lama = $this->db
+				->where('id', $id_surat)
+				->get('surat_keluar')->row();
 
-			@unlink('./desa/upload/surat_keluar/'.$get_file_lama->berkas_scan);
-
+			@unlink('./desa/upload/surat_keluar/' . $get_file_lama->berkas_scan);
 		}
 
 		$this->db->trans_begin();
@@ -355,9 +353,9 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 
 		// hapus data tujuan lama
-		$this->db 
-		->where('id_surat_keluar', $id_surat)
-		->delete('akp_surat_keluar_detil'); 
+		$this->db
+			->where('id_surat_keluar', $id_surat)
+			->delete('akp_surat_keluar_detil');
 
 		$insert_detil = $this->db->insert('akp_surat_keluar_detil', [
 			'id_surat_keluar' => $id_surat,
@@ -366,17 +364,17 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		]);
 
 		$insert_detil_surat = $this->db
-		->where('id_surat_keluar', $id_surat)
-		->update('akp_surat_keluar_detil_surat', [
-			'pemeriksa_id' => $pdata['pemeriksa'],
-			'is_setuju_pembuat' => 0,
-			'is_pemeriksa_setuju' => 0,
-			'is_kirim' => 0,
-		]);
+			->where('id_surat_keluar', $id_surat)
+			->update('akp_surat_keluar_detil_surat', [
+				'pemeriksa_id' => $pdata['pemeriksa'],
+				'is_setuju_pembuat' => 0,
+				'is_pemeriksa_setuju' => 0,
+				'is_kirim' => 0,
+			]);
 
 		if ($this->db->trans_status() === false) {
 			$this->session->set_flashdata('info', '<div class="alert alert-danger">Terjadi kesalahan</div>');
-			redirect('kp_suratku_surat_keluar/edit/'.$id_surat);
+			redirect('kp_suratku_surat_keluar/edit/' . $id_surat);
 		} else {
 			$this->db->trans_commit();
 			redirect('kp_suratku_surat_keluar');
@@ -387,7 +385,6 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 	public function update_db()
 	{
 		$satu = $this->db->query("ALTER TABLE `akp_surat_keluar_detil` ADD FOREIGN KEY (`id_surat_keluar`) REFERENCES `surat_keluar`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
-
 	}
 
 	public function to_pemeriksa($id_surat_keluar)
@@ -395,8 +392,8 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		$this->db
 			->where('id_surat_keluar', $id_surat_keluar)
 			->update('akp_surat_keluar_detil_surat', [
-				'is_setuju_pembuat'=>1,
-				'tgl_setuju_pembuat'=>date('Y-m-d H:i:s')
+				'is_setuju_pembuat' => 1,
+				'tgl_setuju_pembuat' => date('Y-m-d H:i:s')
 			]);
 
 
@@ -408,15 +405,15 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 	public function detil_surat_keluar($id_surat_keluar)
 	{
-		$ret = $this->db 
-		->where('id', $id_surat_keluar)
-		->get('surat_keluar')->row();
+		$ret = $this->db
+			->where('id', $id_surat_keluar)
+			->get('surat_keluar')->row();
 
 		$this->output
-		->set_content_type('application/json')
-		->set_output(json_encode($ret));
+			->set_content_type('application/json')
+			->set_output(json_encode($ret));
 	}
-	
+
 	public function pemeriksa_ok()
 	{
 		$p = $this->input->post();
@@ -430,12 +427,11 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			]);
 
 		$this->output
-		->set_content_type('application/json')
-		->set_output(json_encode([
-			'success'=>true,
-			'message'=>'Berhasil disetujui',
-		]));
-
+			->set_content_type('application/json')
+			->set_output(json_encode([
+				'success' => true,
+				'message' => 'Berhasil disetujui',
+			]));
 	}
 
 	public function kirim($id_surat_keluar)
@@ -445,16 +441,16 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 		$username = $this->username;
 
-		$get_detil_surat_keluar = $this->db 
-		->where('id', $id_surat_keluar)
-		->get('surat_keluar')->row();
+		$get_detil_surat_keluar = $this->db
+			->where('id', $id_surat_keluar)
+			->get('surat_keluar')->row();
 		$file_surat = "";
-		if (is_file('./desa/upload/surat_keluar/'.$get_detil_surat_keluar->berkas_scan)) {
+		if (is_file('./desa/upload/surat_keluar/' . $get_detil_surat_keluar->berkas_scan)) {
 			$file_surat = './desa/upload/surat_keluar/' . $get_detil_surat_keluar->berkas_scan;
 		}
 
 		if (!empty($file_surat)) {
-			$get_tujuan_surat_keluar = $this->db 
+			$get_tujuan_surat_keluar = $this->db
 				->where('id_surat_keluar', $id_surat_keluar)
 				->get('akp_surat_keluar_detil')->result();
 
@@ -473,7 +469,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			if (!empty($get_tujuan_surat_keluar)) {
 				foreach ($get_tujuan_surat_keluar as $tujuan_surat) {
 					$pecah_kode_instansi_tujuan = explode("-", $tujuan_surat->kode_tambahan);
-					$pdata['opd_tujuan['.$no.']'] = $pecah_kode_instansi_tujuan[0]; 
+					$pdata['opd_tujuan[' . $no . ']'] = $pecah_kode_instansi_tujuan[0];
 					$no++;
 				}
 			}
@@ -481,27 +477,29 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 			// echo json_encode($pdata);
 			// exit;
 			// dd($get_tujuan_surat_keluar);
-			
+
 			$send_to_suratku = $this->suratku_model->kirim_surat($username, date('Y'), $pdata);
 
-			log_message('error', 'Kirim surat suratku: '.json_encode($send_to_suratku));
+			// dd($send_to_suratku);
+			// exit;
+
+			log_message('error', 'Kirim surat suratku: ' . json_encode($send_to_suratku));
 
 			if ($send_to_suratku['status'] == 200) {
 				$this->db
-				->where('id_surat_keluar', $id_surat_keluar)
-				->update('akp_surat_keluar_detil_surat', [
-					'is_kirim'=>1,
-					'tgl_kirim'=>date('Y-m-d H:i:s'),
-					'id_surat_suratku'=>$send_to_suratku['response']['idSurat'],
-				]);
+					->where('id_surat_keluar', $id_surat_keluar)
+					->update('akp_surat_keluar_detil_surat', [
+						'is_kirim' => 1,
+						'tgl_kirim' => date('Y-m-d H:i:s'),
+						'id_surat_suratku' => $send_to_suratku['response']->idSurat,
+					]);
 
-				$this->session->set_flashdata('notif', '<div class="alert alert-success" style="margin-top: 5px">'.$send_to_suratku['response']['message'].'</div>');
+				$this->session->set_flashdata('notif', '<div class="alert alert-success" style="margin-top: 5px">' . $send_to_suratku['response']->message . '</div>');
 				redirect('kp_suratku_surat_keluar');
 			} else {
 				$this->session->set_flashdata('notif', '<div class="alert alert-danger" style="margin-top: 5px">Surat tidak terkirim. Terjadi kesalahan: ' . json_encode($send_to_suratku['response']) . '</div>');
 				redirect('kp_suratku_surat_keluar');
 			}
-		
 		}
 
 		/* 
@@ -521,24 +519,24 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 
 	public function detil($id_surat_keluar)
 	{
-		$detil_surat_keluar = $this->db 
-		->where('id', $id_surat_keluar)
-		->get('surat_keluar')->row();
+		$detil_surat_keluar = $this->db
+			->where('id', $id_surat_keluar)
+			->get('surat_keluar')->row();
 
-		$detil_tujuan_surat = $this->db 
-		->where('id_surat_keluar', $id_surat_keluar)
-		->get('akp_surat_keluar_detil')->result();
-		
-		$detil_status_kirim = $this->db 
-		->where('akp_surat_keluar_detil_surat.id_surat_keluar', $id_surat_keluar)
-		->join('user', 'akp_surat_keluar_detil_surat.pemeriksa_id = user.id')
-		->select(
-			'
+		$detil_tujuan_surat = $this->db
+			->where('id_surat_keluar', $id_surat_keluar)
+			->get('akp_surat_keluar_detil')->result();
+
+		$detil_status_kirim = $this->db
+			->where('akp_surat_keluar_detil_surat.id_surat_keluar', $id_surat_keluar)
+			->join('user', 'akp_surat_keluar_detil_surat.pemeriksa_id = user.id')
+			->select(
+				'
 			akp_surat_keluar_detil_surat.*,
 			user.nama AS nama_pemeriksa
 			'
-		)
-		->get('akp_surat_keluar_detil_surat')->row();
+			)
+			->get('akp_surat_keluar_detil_surat')->row();
 
 
 
@@ -554,11 +552,11 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 	{
 		$folder_surat = './desa/upload/surat_keluar/';
 
-		$get_file_surat = $this->db 
-		->where('id', $id_surat_keluar)
-		->get('surat_keluar')->row();
+		$get_file_surat = $this->db
+			->where('id', $id_surat_keluar)
+			->get('surat_keluar')->row();
 
-		if (is_file($folder_surat.$get_file_surat->berkas_scan)) {
+		if (is_file($folder_surat . $get_file_surat->berkas_scan)) {
 			$content_file_surat = file_get_contents($folder_surat . $get_file_surat->berkas_scan);
 			$this->output
 				->set_content_type('application/pdf')
