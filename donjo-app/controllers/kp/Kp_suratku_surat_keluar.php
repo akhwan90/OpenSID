@@ -100,7 +100,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 	{
 		$username = $this->username;
 
-		$get_list_opd = $this->suratku_model->get_list_opd($username, 2024);
+		$get_list_opd = $this->suratku_model->get_list_opd($username, date('Y'));
 
 		// dd($get_list_opd);
 
@@ -153,7 +153,7 @@ class Kp_suratku_surat_keluar extends Admin_Controller
 		$kode_desa = $config['kode_desa'];
 		$username = '003' . $kode_desa;
 
-		$get_list_opd = $this->suratku_model->get_list_opd($username, 2022);
+		$get_list_opd = $this->suratku_model->get_list_opd($username, date('Y'));
 		$get_klasifikasi_surat = $this->klasifikasi_model->list_kode();
 
 
